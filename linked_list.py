@@ -1,5 +1,8 @@
 class Node():
-    def __init__(self,data):#make a node with input value "data"
+    def __init__(self,data):
+        """
+         Initialize a Node with the input data
+        """
         self.data = data
         self.next = None
     def __str__(self):# change the type of node from id to str
