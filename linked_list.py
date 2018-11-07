@@ -127,4 +127,3 @@ class Linkedlist():
                     self.swap(_j+1,_j+2)#+1 and +2 are return to swaping because in swaping the positions are from 1 to another positive position, +1 and +2 are for fitting the positions for swap
                 else:
                     current = current.next
-
