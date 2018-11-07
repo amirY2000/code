@@ -38,7 +38,7 @@ class Linkedlist():
         return the length of linked list
         >>>ll = 1->2->3->None
         >>>__len__(ll)
-        >>>3
+        3
         '''
         if self.head.data == None:
             length = 0
@@ -68,7 +68,7 @@ class Linkedlist():
         '''reverse the linked list
         >>>ll = 1->2->3->None
         >>>reverse(ll)
-        >>>3->2->1->None
+        3->2->1->None
         '''
         previous = None
         current = self.head 
@@ -84,7 +84,7 @@ class Linkedlist():
         change two elemnts of the list with each other
         >>>ll = 1->2->3->None
         >>>swap(ll,1,2)
-        >>>2->1->3->None
+        2->1->3->None
         '''
         length = self.__len__()
         if position1 > length or position2 > length:
@@ -117,7 +117,7 @@ class Linkedlist():
         sort the linked_list by bubble_sort
         >>>ll = 2->1->3->None
         >>>bubble_sort(ll)
-        >>>1->2->3->None
+        1->2->3->None
         """
         length = self.__len__()
         for i in range(0,length):
