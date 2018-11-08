@@ -94,7 +94,10 @@ print(items_in_common([1,2],[2,3]))
 
 def mystery_12(list_of_numbers,upper_limit:list)->bool:
     """
-    it will show that our input as upper_limit is the biggest number in our 
+    it will show that our input as upper_limit is the biggest number in our list of not
+    >>>l = [1,2,3]
+    >>>mystery_12(l,3)
+    True
     """
     b = True
     for e in list_of_numbers:
