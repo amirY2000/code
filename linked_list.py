@@ -8,22 +8,60 @@ class Node():
         '''link the value of Node to its next by a vector'''
         return str(self.data) + "->" + str(self.next)    
 
+    def get_node(self):
+        """
+        return the value of the Node
+        """
+        return self.data
+    
+    def set_node(self,value:int):
+        """set the value as node data"""
+        self.data = value
+        return self.data
+
 class Linkedlist():
-    def __init__(self,linked_list):
+    def __init__(self,linked_list:list):
         '''get a list as linked_list and make a head from 
            the first element,then change its type to Node'''
         if len(linked_list) == 0:
             self.head = Node(None)   
         else:
-            self.head = Node(linked_list[0])
+            self.head = Node(linked_list.__getitem__(0))
             for i in range(1,len(linked_list)):
-                self.append(linked_list[i])
+                self.append(linked_list.__getitem__(i))
+
+
+    def __getitem__(self,position:int)->int:
+        current = self.head
+        i = 0
+        while i != position:
+            i += 1
+            current = current.next
+        return current.data       
     
-    def append(self,last_node):
-        '''it's begin from the head of our linked list and find the last element and add new node'''
-        if self.head.data == None:  
-            self.head = Node(last_node)
+    def __setitem__(self,position,value:int):
+        length = self.__len__()
+        if position > length:
+            self.append(value)
         else:
+            current = self.head
+            i = 0 
+            while i != position:
+                i += 1
+                current = current.next
+            current.data = value    
+    
+    def append(self,last_node:int):
+        """
+        it's begin from the head of our linkedlist and find the last element and add new node
+        >>>ll = Linkedlist([1,2,3])
+        >>>ll.append(4)
+        1->2->3->4->None
+        """
+        if self.head.get_node() == None:  
+            self.head = Node(last_node)
+        else: 
+            current = (self.head)
             current = self.head
             while current.next != None:
                 current = current.next
@@ -36,11 +74,11 @@ class Linkedlist():
     def __len__(self):
         '''
         return the length of linked list
-        >>>ll = 1->2->3->None
-        >>>__len__(ll)
-        3
+        >>>ll = Linkedlist([1,2,3])
+        >>>ll.__len__()
+        >>>3
         '''
-        if self.head.data == None:
+        if self.head.get_node() == None:
             length = 0
         else:
             current = self.head
@@ -50,8 +88,14 @@ class Linkedlist():
                 current = current.next
         return length    
 
-    def __delitem__(self,position):
-        """delete the the element of the linked list """
+    def __delitem__(self,position:int):
+
+        """
+        delete the the element of the linked list
+        >>>ll = Linkedlist([1,2,3,4,5])
+        >>>ll.__delitem__(4)
+        1->2->3->5->None
+        """
         current = self.head
         previous = None
         i = 0
@@ -66,8 +110,8 @@ class Linkedlist():
 
     def reverse(self):
         '''reverse the linked list
-        >>>ll = 1->2->3->None
-        >>>reverse(ll)
+        >>>ll = Linkedlist([1,2,3,4])
+        >>>ll.reverse()
         3->2->1->None
         '''
         previous = None
@@ -79,12 +123,61 @@ class Linkedlist():
             current = temp
         self.head = previous
 
+    def pop(self):
+        """
+        delete the last node of our linkedlist
+        >>>ll = Linkedlist([1,2,3])
+        >>>ll.pop()
+        1->2->None
+        """
+        length = self.__len__()
+        current = self.head
+        previous = None
+        if length == 0:
+            return 'there is nothing to remove'
+        if length == 1:
+            self.head = Node(None)
+        else:
+            while current.next is not None:
+                previous = current
+                current = current.next
+            previous.next = current.next
+
+    def copy(self):
+        """
+        return a copy of Linkedlist
+        >>>ll = Linkedlist([1,2,3])
+        >>>ll.copy()
+        '1->2->3->None'
+        """
+        copy = []
+        current = self.head
+        while current.next != None:
+            copy.append(current.data)
+            current = current.next
+        copy.append(current.data)
+        list_copy = Linkedlist(copy) 
+        return str(list_copy)
+        
+    def extend(self,new_list:list):
+        """
+        add new list to the linkned list
+        >>>l = [1,2,3], new_list = [4,5,6]
+        >>>l.extend(new_list)
+        1->2->3->4->5->6->None
+        """
+        copy_head = Linkedlist(new_list)
+        current = self.head
+        while current.next is not None:
+            current = current.next
+        current.next = copy_head    
+
     def swap(self,position1,position2):
         '''
         change two elemnts of the list with each other
         >>>ll = 1->2->3->None
         >>>swap(ll,1,2)
-        2->1->3->None
+        >>>2->1->3->None
         '''
         length = self.__len__()
         if position1 > length or position2 > length:
@@ -117,7 +210,7 @@ class Linkedlist():
         sort the linked_list by bubble_sort
         >>>ll = 2->1->3->None
         >>>bubble_sort(ll)
-        1->2->3->None
+        >>>1->2->3->None
         """
         length = self.__len__()
         for i in range(0,length):
@@ -127,3 +220,5 @@ class Linkedlist():
                     self.swap(_j+1,_j+2)#+1 and +2 are return to swaping because in swaping the positions are from 1 to another positive position, +1 and +2 are for fitting the positions for swap
                 else:
                     current = current.next
+
+
