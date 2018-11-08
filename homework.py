@@ -80,18 +80,12 @@ def remove_strings_modify(liist:list)->list:
                     liist.remove(j)      
 print(remove_strings_modify(['1',8,'v','s',5,4,'d', 'c']))
 
-def mystery_10(list_of_number:list)->list:
+def mystery_10(list_of_number,limit:list)->list:
     '''
     it makes a new list and will add the numbers that are bigger than a limit to new list.
-    but this code will return an error because we didn't define the variable 'limit'.
-    Here is an example if we define the limit as '2':
     >>>l = [1,2,3,4,5]
-    >>>mystery_10(l):
+    >>>mystery_10(l,2):
     [3,4,5]
-    if we run this code:
-    >>>l = [1,2,3,4,5]
-    >>>mystery_10(l)
-    name 'limit' is not defiend
     '''
     l = []
     for e in list_of_number:
