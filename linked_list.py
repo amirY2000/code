@@ -212,6 +212,8 @@ class Linkedlist():
         >>>1->2->3->None
         """
         length = self.__len__()
+        if length == 0:
+            return 'There is nothing to sort'
         for i in range(0,length):
             current = self.head
             for _j in range(0,length-i-1):
