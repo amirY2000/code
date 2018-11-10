@@ -1,4 +1,3 @@
-import copy
 class Node():
     def __init__(self,data):
         """Initialize a Node with the input data and a next as None"""
