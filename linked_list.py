@@ -1,3 +1,4 @@
+import copy
 class Node():
     def __init__(self,data):
         """Initialize a Node with the input data and a next as None"""
@@ -146,18 +147,17 @@ class Linkedlist():
         return a copy of Linkedlist
         >>>ll = Linkedlist([1,2,3])
         >>>ll.copy()
-        '1->2->3->None'
+        1->2->3->None
         """
-        copy = []
+        copy = Linkedlist([])
         current = self.head
-        while current.next != None:
-            copy.append(current.data)
-            current = current.next
         copy.append(current.data)
-        list_copy = Linkedlist(copy) 
-        return str(list_copy)
-        
-    def extend(self,new_list):
+        while current.next is not None:
+            copy.append(current.next.data)
+            current = current.next
+        return copy
+
+    def extend(self,new_list:list):
         """
         add new list to the linkned list
         >>>l = [1,2,3], new_list = [4,5,6]
@@ -212,8 +212,8 @@ class Linkedlist():
         >>>1->2->3->None
         """
         length = self.__len__()
-        if length == 0:
-            return 'There is nothing to sort'
+        if length == 0 :
+            return 'There is nothing to'
         for i in range(0,length):
             current = self.head
             for _j in range(0,length-i-1):
