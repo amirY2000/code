@@ -30,7 +30,6 @@ class Linkedlist():
             for i in range(1,len(linked_list)):
                 self.append(linked_list.__getitem__(i))
 
-
     def __getitem__(self,position:int)->int:
         current = self.head
         i = 0
@@ -61,7 +60,6 @@ class Linkedlist():
         if self.head.get_node() == None:  
             self.head = Node(last_node)
         else: 
-            current = (self.head)
             current = self.head
             while current.next != None:
                 current = current.next
@@ -166,11 +164,12 @@ class Linkedlist():
         >>>l.extend(new_list)
         1->2->3->4->5->6->None
         """
-        copy_head = Linkedlist(new_list)
-        current = self.head
-        while current.next is not None:
-            current = current.next
-        current.next = copy_head    
+        for i in range(0,len(new_list)):
+            copy_head = Node(new_list.__getitem__(i))
+            current = self.head
+            while current.next is not None:
+                current = current.next
+            current.next = copy_head    
 
     def swap(self,position1,position2):
         '''
@@ -221,4 +220,14 @@ class Linkedlist():
                 else:
                     current = current.next
 
-
+    def selectionsort(self):
+        length = self.__len__()
+        for i in range(length): 
+            min_idx = i
+            for j in range(i+1, length):
+                if self.head[min_idx] > self.head[j]: 
+                    min_idx = j          
+            temp = self.head[min_idx]
+            self.head[min_idx] = self.head[i]
+            self.head[i] = temp
+        
