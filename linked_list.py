@@ -157,7 +157,7 @@ class Linkedlist():
         list_copy = Linkedlist(copy) 
         return str(list_copy)
         
-    def extend(self,new_list:list):
+    def extend(self,new_list):
         """
         add new list to the linkned list
         >>>l = [1,2,3], new_list = [4,5,6]
