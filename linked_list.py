@@ -202,7 +202,7 @@ class Linkedlist():
         temp = index1.next
         index1.next = index2.next
         index2.next = temp
-
+    
     def bubble_sort(self):
         """
         sort the linked_list by bubble_sort
@@ -221,14 +221,15 @@ class Linkedlist():
                 else:
                     current = current.next
 
-    def selectionsort(self):
+    def selection_sort(self):
         length = self.__len__()
         for i in range(length): 
             min_idx = i
+            first_pos = self.__getitem__(min_idx)
             for j in range(i+1, length):
-                if self.head[min_idx] > self.head[j]: 
+                second_pos = self.__getitem__(j)
+                if first_pos > second_pos: 
                     min_idx = j          
-            temp = self.head[min_idx]
-            self.head[min_idx] = self.head[i]
-            self.head[i] = temp
-        
+            self.__setitem__(i, self.__getitem__(min_idx))
+            self.__setitem__(min_idx, first_pos)
+           
