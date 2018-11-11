@@ -7,7 +7,7 @@ class Node():
     def __str__(self):
         '''link the value of Node to its next by a vector'''
         return str(self.data) + "->" + str(self.next)    
-    
+
 class Linkedlist():
     def __init__(self,linked_list:list):
         '''get a list as linked_list and make a head from 
@@ -19,10 +19,12 @@ class Linkedlist():
             for i in range(1,len(linked_list)):
                 self.append(linked_list.__getitem__(i))
 
-    def __getitem__(self,position:int)->int:
+    def __getitem__(self, position:int)->int:
+        if position >= len(self):
+            raise IndexError("Position is out of range")
         current = self.head
         i = 0
-        while i != position:
+        while i < position:
             i += 1
             current = current.next
         return current.data       
@@ -46,7 +48,7 @@ class Linkedlist():
         >>>ll.append(4)
         1->2->3->4->None
         """
-        if self.head.get_node() == None:  
+        if self.head.data == None:  
             self.head = Node(last_node)
         else: 
             current = self.head
@@ -65,7 +67,7 @@ class Linkedlist():
         >>>ll.__len__()
         >>>3
         '''
-        if self.head.get_node() == None:
+        if self.head.data == None:
             length = 0
         else:
             current = self.head
@@ -211,17 +213,27 @@ class Linkedlist():
                     current = current.next
 
     def selection_sort(self):
+
         """
         sort the linked list by selection_sort
         """
-        length = self.__len__()
+        length = len(self)
         for i in range(length): 
             min_idx = i
-            first_pos = self.__getitem__(min_idx)
+            first_pos = self[min_idx]
             for j in range(i+1, length):
-                second_pos = self.__getitem__(j)
+                second_pos = self[j]
                 if first_pos > second_pos: 
                     min_idx = j          
-            self.__setitem__(i, self.__getitem__(min_idx))
-            self.__setitem__(min_idx, first_pos)
-           
+            self[i] = self[min_idx]
+            self[min_idx] = first_pos        
+
+    def insertion_sort(self):
+        length = len(self)
+        for i in range(1,length):
+            temp = self[i] 
+            j = i-1
+            while j >=0 and temp < self[j]: 
+                self[j+1] = self[j] 
+                j -= 1
+            self[j+1] = temp    
