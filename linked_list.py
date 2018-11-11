@@ -222,6 +222,9 @@ class Linkedlist():
                     current = current.next
 
     def selection_sort(self):
+        """
+        sort the linked list by selection_sort
+        """
         length = self.__len__()
         for i in range(length): 
             min_idx = i
