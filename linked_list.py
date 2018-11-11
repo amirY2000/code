@@ -229,6 +229,9 @@ class Linkedlist():
             self[min_idx] = first_pos        
 
     def insertion_sort(self):
+        """
+        sort the  linked list by insertion sort
+        """
         length = len(self)
         for i in range(1,length):
             temp = self[i] 
