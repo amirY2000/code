@@ -7,18 +7,7 @@ class Node():
     def __str__(self):
         '''link the value of Node to its next by a vector'''
         return str(self.data) + "->" + str(self.next)    
-
-    def get_node(self):
-        """
-        return the value of the Node
-        """
-        return self.data
     
-    def set_node(self,value:int):
-        """set the value as node data"""
-        self.data = value
-        return self.data
-
 class Linkedlist():
     def __init__(self,linked_list:list):
         '''get a list as linked_list and make a head from 
