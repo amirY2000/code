@@ -5,7 +5,7 @@ def largest(mylist:list)->int:
     >>>largest(l)
     5
     '''
-    i = 0
+    i = 0 ## what if the largest number in the list is -1?
     for j in mylist:
         if j > i:
             i = j
@@ -34,7 +34,7 @@ def commen_element(mylist,yourlist:list)->list:
     True
     '''
     for i in mylist:
-        for j in yourlist:
+        for j in yourlist:  # you can simply this a bit using 'in'
             if i == j:
                 return True
     return False
@@ -42,11 +42,13 @@ print(commen_element([1,2,3,4],[5,7,8]))
 
 def list_to_string(mylist:list)->list:
     '''
-    change the type oof each element to string
+    change the type of each element to string
     >>>l = [1,2,'a']
     >>>list_to _string(l)
     ['1','2','a']
     '''
+    ## this will give us a list of string
+    ## try to return a string consisting of every element of the list
     new_list = []
     for i in mylist:
         if type(i) != str:
@@ -64,7 +66,7 @@ def extend_a_list(mylist,yourlist:list)->list:
     '''
     for i in yourlist:
         mylist.append(i)
-print(extend_a_list([1,2],[3,4]))
+print(extend_a_list([1,2],[3,4]))  # what should this print
 
 def all_squares(max_number:int)->list:
     '''
@@ -89,7 +91,7 @@ def items_in_common(mylist,yourlist:list)->list:
     for j in yourlist:
         if j not in mylist:
             yourlist.remove(j)
-    return yourlist
+    return yourlist  # you've modified the list here, try making a new list
 print(items_in_common([1,2],[2,3]))
 
 def mystery_12(list_of_numbers,upper_limit:list)->bool:
@@ -99,6 +101,7 @@ def mystery_12(list_of_numbers,upper_limit:list)->bool:
     >>>mystery_12(l,3)
     True
     """
+    ## Write a more precise description
     b = True
     for e in list_of_numbers:
         if e > upper_limit:
