@@ -203,7 +203,7 @@ class Linkedlist():
         """
         length = self.__len__()
         if length == 0 :
-            return 'There is nothing to'
+            return 'There is nothing to sort'
         for i in range(0,length):
             current = self.head
             for _j in range(0,length-i-1):
@@ -218,6 +218,8 @@ class Linkedlist():
         sort the linked list by selection_sort
         """
         length = len(self)
+        if length == 0:
+            return "there is nothing to sort"
         for i in range(length): 
             min_idx = i
             first_pos = self[min_idx]
@@ -233,6 +235,8 @@ class Linkedlist():
         sort the  linked list by insertion sort
         """
         length = len(self)
+        if length == 0:
+            return "there is nothing to sort"
         for i in range(1,length):
             temp = self[i] 
             j = i-1
