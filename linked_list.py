@@ -30,7 +30,7 @@ class Linkedlist():
         return current.data       
     
     def __setitem__(self,position,value:int):
-        length = self.__len__()
+        length = len(self)
         if position > length:
             self.append(value)
         else:
@@ -43,7 +43,7 @@ class Linkedlist():
     
     def append(self,last_node:int):
         """
-        it's begin from the head of our linkedlist and find the last element and add new node
+        it is adding a new node to the end of the linkedlist
         >>>ll = Linkedlist([1,2,3])
         >>>ll.append(4)
         1->2->3->4->None
@@ -80,7 +80,7 @@ class Linkedlist():
     def __delitem__(self,position:int):
 
         """
-        delete the the element of the linked list
+        delete an index from the linked list
         >>>ll = Linkedlist([1,2,3,4,5])
         >>>ll.__delitem__(4)
         1->2->3->5->None
@@ -98,20 +98,18 @@ class Linkedlist():
             previous.next = current.next
 
     def reverse(self):
-        '''reverse the linked list
+        '''
+        reverse the linked list
         >>>ll = Linkedlist([1,2,3,4])
         >>>ll.reverse()
         3->2->1->None
         '''
-        previous = None
-        current = self.head 
-        while current.next != None: 
-            temp = current.next
-            current.next = previous 
-            previous = current 
-            current = temp
-        self.head = previous
-
+        length = len(self)
+        for i in range(length//2):
+            temp = self[length-i-1]
+            self[length-i-1] = self[i]
+            self[i] = temp
+    
     def pop(self):
         """
         delete the last node of our linkedlist
@@ -147,6 +145,7 @@ class Linkedlist():
             current = current.next
         return copy
 
+
     def extend(self,new_list:list):
         """
         add new list to the linkned list
@@ -160,39 +159,6 @@ class Linkedlist():
             while current.next is not None:
                 current = current.next
             current.next = copy_head    
-
-    def swap(self,position1,position2):
-        '''
-        change two elemnts of the list with each other
-        >>>ll = 1->2->3->None
-        >>>swap(ll,1,2)
-        >>>2->1->3->None
-        '''
-        length = self.__len__()
-        if position1 > length or position2 > length:
-            return "im not responsible for positions out of range "
-        previous1 = None 
-        index1 = self.head
-        previous2 = None
-        index2 = self.head
-        counter = 1
-        while counter < position1:
-            previous1 = index1
-            index1 = index1.next
-            counter += 1
-        counter = 1
-        while counter < position2:
-            previous2 = index2
-            index2 = index2.next
-            counter += 1  
-        if previous1 != None:
-            previous1.next = index2
-        else:
-            self.head = index2
-        previous2.next = index1
-        temp = index1.next
-        index1.next = index2.next
-        index2.next = temp
     
     def bubble_sort(self):
         """
@@ -201,16 +167,13 @@ class Linkedlist():
         >>>bubble_sort(ll)
         >>>1->2->3->None
         """
-        length = self.__len__()
-        if length == 0 :
-            return 'There is nothing to sort'
-        for i in range(0,length):
-            current = self.head
-            for _j in range(0,length-i-1):
-                if current.data > current.next.data:
-                    self.swap(_j+1,_j+2)#+1 and +2 are return to swaping because in swaping the positions are from 1 to another positive position, +1 and +2 are for fitting the positions for swap
-                else:
-                    current = current.next
+        length = len(self)
+        for i in range(length):
+            for j in range(0,length-i-1):
+                if self[j] > self[j+1]:
+                    temp = self[j+1]
+                    self[j+1] = self[j]
+                    self[j] = temp
 
     def selection_sort(self):
 
@@ -218,25 +181,20 @@ class Linkedlist():
         sort the linked list by selection_sort
         """
         length = len(self)
-        if length == 0:
-            return "there is nothing to sort"
-        for i in range(length): 
-            min_idx = i
-            first_pos = self[min_idx]
-            for j in range(i+1, length):
-                second_pos = self[j]
-                if first_pos > second_pos: 
-                    min_idx = j          
-            self[i] = self[min_idx]
-            self[min_idx] = first_pos        
+        for i in range(length):
+            min_index = i
+            for j in range(i+1,length):
+                if self[min_index] > self[j]:
+                    min_index = j
+            temp = self[min_index]
+            self[min_index] = self[i]
+            self[i] = temp        
 
     def insertion_sort(self):
-        """
-        sort the  linked list by insertion sort
-        """
+        '''
+        sort linkedlist by insertion_sort
+        '''
         length = len(self)
-        if length == 0:
-            return "there is nothing to sort"
         for i in range(1,length):
             temp = self[i] 
             j = i-1
