@@ -8,7 +8,7 @@ def every_other_new(liist:list)->list:
     lisst = []
     for i in range(0,len(liist)):
         if i % 2 != 0:
-            lisst.append("_") 
+            lisst.append("_") ## we don't want these added to the list
         else:
             lisst.append(liist[i])
     return lisst 
@@ -21,7 +21,7 @@ def every_other_modify(liist:list)->list:
     >>>every_other_modify(l)
     [2,4]
     """
-    liist = liist[1::2]
+    liist = liist[1::2] ## good
 print(every_other_modify([1,2,3,4,5,6]))
 
 def sum_of_even(list_of_numbers:list)->int:
@@ -75,7 +75,7 @@ def remove_strings_modify(liist:list)->list:
     for i in liist:
         if type(i) == str:
             liist.remove(i)
-            for j in liist:
+            for j in liist: #why are we doing it twice? see if can do it without that.
                 if type(j) == str:
                     liist.remove(j)      
 print(remove_strings_modify(['1',8,'v','s',5,4,'d', 'c']))
