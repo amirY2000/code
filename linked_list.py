@@ -88,7 +88,7 @@ class Linkedlist():
         current = self.head
         previous = None
         i = 0
-        while i != position:
+        while i != position and self.head != None:
             i += 1
             previous = current
             current = current.next 
