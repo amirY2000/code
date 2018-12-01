@@ -1,12 +1,12 @@
 def initialize_board() -> list:
-    b = [" 1 1 1 1", "1 1 1 1 ", " 1 1 1 1", "0 0 0 0 ", " 0 0 0 0", "2 2 2 2 ", " 2 2 2 2", "2 2 2 2 "]
-    return b
+    board = ['',"w",".","w",".","w",".","w",".",".","w",".","w",".","w",".","w","w",".","w",".","w",".","w",".",".",0,".",0,".",0,".",0,0,".",0,".",0,".",0,".",".","B",".","B",".","B",".","B","B",".","B",".","B",".","B",".",".","B",".","B",".","B",".","B"]
+    return board
 
 def display_board(board) -> str:
     """
     return the board display
     """
-    board = [["   ","a","b","c","d","e","f","g","h"],[1,"|","w",".","w",".","w",".","w","."],[2,"|",".","w",".","w",".","w",".","w"],[3,"|","w",".","w",".","w",".","w","."],[4,"|",".",0,".",0,".",0,".",0],[5,"|",0,".",0,".",0,".",0,"."],[6,"|",".","B",".","B",".","B",".","B"],[7,"|","B",".","B",".","B",".","B","."],[8,"|",".","B",".","B",".","B",".","B"]]
+    board = [[" ",1,2,3,4,5,6,7,8],[1,"w",".","w",".","w",".","w","."],[2,".","w",".","w",".","w",".","w"],[3,"w",".","w",".","w",".","w","."],[4,".",0,".",0,".",0,".",0],[5,0,".",0,".",0,".",0,"."],[6,".","B",".","B",".","B",".","B"],[7,"B",".","B",".","B",".","B","."],[8,".","B",".","B",".","B",".","B"]]
     for i in board:
         for c in i:
             print(c,end = " ")
@@ -18,59 +18,83 @@ print(display_board(board))
 def valid_piece(board,piece = None) -> bool:
     """
     return True iff the piece exist
-    >>>valid_piece(b,1)
+    first number is column and second is row
+    >>>valid_piece(b,11)
     True
-    >>>valid_piece(b,2)
+    >>>valid_piece(b,22)
     False
     """
     piece = input("which peice are you looking for ? ")
-    board = ['',"w",".","w",".","w",".","w",".",".","w",".","w",".","w",".","w","w",".","w",".","w",".","w",".",".",0,".",0,".",0,".",0,0,".",0,".",0,".",0,".",".","B",".","B",".","B",".","B","B",".","B",".","B",".","B",".",".","B",".","B",".","B",".","B"]
-    if piece == "0":
-        return False
-    for i in range(len(board)):
-        if str(i) == piece:
-            if board[i] == "w" or board[i] == "B":
-                return True
-            return False
+    board = [[" ",1,2,3,4,5,6,7,8],[1,"w",".","w",".","w",".","w","."],[2,".","w",".","w",".","w",".","w"],[3,"w",".","w",".","w",".","w","."],[4,".",0,".",0,".",0,".",0],[5,0,".",0,".",0,".",0,"."],[6,".","B",".","B",".","B",".","B"],[7,"B",".","B",".","B",".","B","."],[8,".","B",".","B",".","B",".","B"]]
+    a = piece[0]
+    b = piece[1]
+    for i in range(100):
+        if str(i) == a:
+            a = i
+            for j in range(100):
+                if str(j) == b:
+                    b = j
+                    break
+    if board[b][a] == "w" or board[b][a] == "B":
+        return True
+    return False
 board = initialize_board()
 print(valid_piece(board))
 
 def valid_move(board) -> bool:
     """
     return True iff the move is valid in checkers game
-    >>>valid_move(b,17,26)
+    first letter is column and second one is row
+    >>>valid_move(b,33,44)
     True
     >>>valid_move(b,17,25)
     False
     """
     piece = input("Which piece would you like to move ? ")
     move = input("to?! ")
-    board = ['',"w",".","w",".","w",".","w",".",".","w",".","w",".","w",".","w","w",".","w",".","w",".","w",".",".",0,".",0,".",0,".",0,0,".",0,".",0,".",0,".",".","B",".","B",".","B",".","B","B",".","B",".","B",".","B",".",".","B",".","B",".","B",".","B"]
-    if piece == "0" or move == "0":
+    board = [[" ",1,2,3,4,5,6,7,8],[1,"w",".","w",".","w",".","w","."],[2,".","w",".","w",".","w",".","w"],[3,"w",".","w",".","w",".","w","."],[4,".",0,".",0,".",0,".",0],[5,0,".",0,".",0,".",0,"."],[6,".","B",".","B",".","B",".","B"],[7,"B",".","B",".","B",".","B","."],[8,".","B",".","B",".","B",".","B"]]
+    a = move[0]
+    b = move[1]
+    for i in range(100):
+        if str(i) == a:
+            a = i
+            for j in range(100):
+                if str(j) == b:
+                    b = j
+                    break
+    if board[b][a] == 0:
+        g = piece[0]
+        h = piece[1]
+        for l in range(100):
+            if str(l) == g:
+                g = l
+                for p in range(100):
+                    if str(p) == h:
+                        h = p
+                        break
+        if board[h][g] == "w" or board[h][g] == "B":
+            if b-h == 1 or b-h == -1:
+                if a-g == 1 or a-g == -1:
+                    return True
+            return False        
         return False
-    for i in range(len(board)):
-        if str(i) == move:
-            move = i
-            if board[i] == "w" or board[i] == "B":
-                for j in range(len(board)):
-                    if str(j) == piece:
-                        if board[j] == "w" or board[j] == "B":
-                                if move - j == 7 or move - j == 9 and board[move] == 0:
-                                    return True
-                                return False
-            else:
-                return False              
+    return False
+              
 board = initialize_board()
 print(valid_move(board))
 
-def update_board(board : list, move : str, piece : str, player : int) -> bool:
+def update_board(board : list) -> bool:
     """
     Update board by moving piece to move. Return True if and only if
     the opposing player (the one that is not moving a piece) has no valid
     moves after updating the game.
     """
-    pass
- # write this function according to the function design recipe.
+    board = [["   ",1,2,3,4,5,6,7,8],[1,"|","w",".","w",".","w",".","w","."],[2,"|",".","w",".","w",".","w",".","w"],[3,"|","w",".","w",".","w",".","w","."],[4,"|",".",0,".",0,".",0,".",0],[5,"|",0,".",0,".",0,".",0,"."],[6,"|",".","B",".","B",".","B",".","B"],[7,"|","B",".","B",".","B",".","B","."],[8,"|",".","B",".","B",".","B",".","B"]]
+    player = input("player 1 or player 2 ? ")
+    piece = input("which piece do you want to move ? ")
+    move = input("what is your destination ? ")
+    board = ['',"w",".","w",".","w",".","w",".",".","w",".","w",".","w",".","w","w",".","w",".","w",".","w",".",".",0,".",0,".",0,".",0,0,".",0,".",0,".",0,".",".","B",".","B",".","B",".","B","B",".","B",".","B",".","B",".",".","B",".","B",".","B",".","B"]
+    
 
 def update_player(player) -> int:
     pass
@@ -84,9 +108,10 @@ def update_player(player) -> int:
             while not valid_piece(board, piece):
                 piece = input("Player {}, pick a valid piece".format(player))
             move = input("Player {}, where would you like to move the piece at {}?".format(player, piece))
-            while not valid_move(board, move, piece):
+            while not valid_move(board):
                 move = input("Player {}, pick a valid move for the piece at {}.".format(player, piece))
             gameover = update_board(board, move, piece, player)
             player = update_player(player)
         player = update_player(player)
         print("Game over, player {} wins!".format(player))
+     
