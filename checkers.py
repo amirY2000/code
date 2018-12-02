@@ -25,10 +25,8 @@ class Checkers:
         False
         """
         piece = input("which peice are you looking for ? ")
-        a = piece[0]
-        b = piece[1]
-        a = int(a)
-        b = int(b)
+        a = int(piece[0])
+        b = int(piece[1])
         if self.board[b][a] == "w" or self.board[b][a] == "B":
             return True
         return False
