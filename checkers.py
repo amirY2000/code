@@ -13,7 +13,7 @@ class Checkers:
             print()
         return '----------------'
 
-    def valid_piece(self,piece = None) -> bool:
+    def valid_piece(self,piece:int) -> bool:
         """
         return True iff the piece exist
         first number is column and second is row
@@ -24,14 +24,13 @@ class Checkers:
         >>>valid_piece(12)
         False
         """
-        piece = input("which peice are you looking for ? ")
         a = int(piece[0])
         b = int(piece[1])
         if self.board[b][a] == "w" or self.board[b][a] == "B":
             return True
         return False
 
-    def valid_move(self) -> bool:
+    def valid_move(self,piece:int,move:int) -> bool:
         """
         return True iff the move is valid in checkers game
         first letter is column and second one is row
@@ -44,11 +43,10 @@ class Checkers:
         >>>88
         False
         """
-        piece = input("Which piece would you like to move ? ")
-        move = input("to?! ")
         a = int(move[0])
         b = int(move[1])
         g = int(piece[0])
+        h = int(piece[1])
         print(self.board[h][g])
         if self.board[h][g] == "w" or self.board[h][g] == "B":
             if b-h == 1 or b-h == -1:
@@ -57,7 +55,7 @@ class Checkers:
             return False        
         return False
                 
-    def update_board(self : list)-> str:
+    def update_board(self : list,player:int,piece:int,move:int)-> str:
         """
         Update board by moving piece to move. Return True if and only if
         the opposing player (the one that is not moving a piece) has no valid
@@ -68,11 +66,8 @@ class Checkers:
         >>>44
         print board
         """
-        player = input("player 1 or player 2 ? ")
         if player != "1" and player != "2":
             return "please enter a valid player"
-        piece = input("which piece do you want to move ? ")
-        move = input("what is your destination ? ")
         a = int(move[0])
         b = int(move[1])
         if self.board[b][a] == 0:
@@ -83,21 +78,14 @@ class Checkers:
                         temp = self.board[h][g]
                         self.board[h][g] = self.board[b][a]
                         self.board[b][a] = temp
-                        for d in self.board:
-                            for c in d:
-                                print(c,end = " ")
-                            print()
+                        self.display_board()
             if player == "1" and self.board[h][g] == "w":
                 if b-h == 1 and a-g == 1 or a-g == -1:
                     temp = self.board[h][g]
                     self.board[h][g] = self.board[b][a]
                     self.board[b][a] = temp
-                    for d in self.board:
-                        for c in d:
-                            print(c,end = " ")
-                        print()   
-    def update_player(self,player) -> int:
-        pass
+                    self.display_board()
+    def update_player(self,player:int) -> int:
         if __name__ == "__main__":
             player = 1
             gameover = False
@@ -107,9 +95,9 @@ class Checkers:
                 while not self.valid_piece(piece):
                     piece = input("Player {}, pick a valid piece".format(player))
                 move = input("Player {}, where would you like to move the piece at {}?".format(player, piece))
-                while not self.valid_move():
+                while not self.valid_move(piece,move):
                     move = input("Player {}, pick a valid move for the piece at {}.".format(player, piece))
-                    gameover = self.update_board()
+                    gameover = self.update_board(player,piece,move)
                 player = self.update_player(player)
             player = self.update_player(player)
             print("Game over, player {} wins!".format(player))
