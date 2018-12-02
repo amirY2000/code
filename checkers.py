@@ -19,9 +19,11 @@ def valid_piece(board,piece = None) -> bool:
     """
     return True iff the piece exist
     first number is column and second is row
-    >>>valid_piece(b,11)
+    >>>valid_piece(board)
+    >>>valid_piece(11)
     True
-    >>>valid_piece(b,22)
+    >>>valid_piece(board)
+    >>>valid_piece(12)
     False
     """
     piece = input("which peice are you looking for ? ")
@@ -45,9 +47,13 @@ def valid_move(board) -> bool:
     """
     return True iff the move is valid in checkers game
     first letter is column and second one is row
-    >>>valid_move(b,33,44)
+    >>>valid_move(board)
+    >>>33
+    >>>44
     True
-    >>>valid_move(b,17,25)
+    >>>valid_move(board)
+    >>>44
+    >>>88
     False
     """
     piece = input("Which piece would you like to move ? ")
@@ -89,6 +95,11 @@ def update_board(board : list) -> bool:
     Update board by moving piece to move. Return True if and only if
     the opposing player (the one that is not moving a piece) has no valid
     moves after updating the game.
+    >>>update_board(board)
+    >>>1
+    >>>33
+    >>>44
+    print board & True
     """
     board = [[" ",1,2,3,4,5,6,7,8],[1,"w",".","w",".","w",".","w","."],[2,".","w",".","w",".","w",".","w"],[3,"w",".","w",".","w",".","w","."],[4,".",0,".",0,".",0,".",0],[5,0,".",0,".",0,".",0,"."],[6,".","B",".","B",".","B",".","B"],[7,"B",".","B",".","B",".","B","."],[8,".","B",".","B",".","B",".","B"]]
     player = input("player 1 or player 2 ? ")
@@ -132,6 +143,9 @@ def update_board(board : list) -> bool:
                     print()
         else:
             return "Please enter a valid player"
+    if Valid_move() == True:
+        return True
+    return False
 board = initialize_board()
 print(update_board(board))
 def update_player(player) -> int:
