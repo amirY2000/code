@@ -21,6 +21,8 @@ class BST:
                 current = self.root
                 while current.right is not None:
                     current = current.right
+                    if value < current.data:
+                        break
                 if value < current.data:
                     current.left = Node(value)    
                 if value > current.data:
@@ -29,6 +31,8 @@ class BST:
                 current = self.root
                 while current.left is not None:
                     current = current.left
+                    if value > current.data:
+                        break
                 if value < current.data:
                     current.left = Node(value)    
                 if value > current.data:
