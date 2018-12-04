@@ -4,7 +4,7 @@ class Node:
         self.left = None
         self.right = None
     def __str__(self):
-        return str(self.left) +" "+ str(self.data) + " " + str(self.right)
+        return str(self.left) +"<-"+ str(self.data) + "->" + str(self.right)
 class BST:
     def __init__(self,tree_list):
         if len(tree_list) == 0:
@@ -57,7 +57,26 @@ class BST:
                         current = current.right
                 return True
         return False
-       
+    def inorder(self):
+        if self.root.left is not None:
+            print(self.root.left)
+        print(self.root.data)
+        if self.root.right is not None:
+            print(self.root.right)
+    
+    def preorder(self):
+        print(self.root.data)
+        if self.root.left is not None:
+            print(self.root.left)
+        if self.root.right is not None:
+            print(self.root.right)
+
+    def postorder(self):
+        if self.root.left is not None:
+            print(self.root.left)
+        if self.root.right is not None:
+            print(self.root.right)
+        print(self.root.data)
     def __str__(self):
         return str(self.root)
     def tree(self):
