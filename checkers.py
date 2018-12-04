@@ -1,7 +1,6 @@
 class Checkers:
     def __init__(self) -> list:
         self.board = [[" ",1,2,3,4,5,6,7,8],[1,"w",".","w",".","w",".","w","."],[2,".","w",".","w",".","w",".","w"],[3,"w",".","w",".","w",".","w","."],[4,".",0,".",0,".",0,".",0],[5,0,".",0,".",0,".",0,"."],[6,".","B",".","B",".","B",".","B"],[7,"B",".","B",".","B",".","B","."],[8,".","B",".","B",".","B",".","B"]]
-        self.player = 1
     def display_board(self) -> str:
         """
         return the board display
@@ -42,19 +41,19 @@ class Checkers:
         >>>88
         False
         """
+        move = str(move)
+        piece = str(piece)
         a = int(move[0])
         b = int(move[1])
         g = int(piece[0])
         h = int(piece[1])
-        print(self.board[h][g])
         if self.board[h][g] == "w" or self.board[h][g] == "B":
             if b-h == 1 or b-h == -1:
                 if a-g == 1 or a-g == -1:
                     return True
             return False        
-        return False
-                
-    def update_board(self : list, player:int, piece:int,move:int)-> str:
+        return False       
+    def update_board(self : list, player:int, piece:int,move:int)->bool:
         """
         Update board by moving piece to move. Return True if and only if
         the opposing player (the one that is not moving a piece) has no valid
@@ -65,36 +64,51 @@ class Checkers:
         >>>44
         print board
         """
-        if player != "1" and player != "2":
-            return "please enter a valid player"
+        move = str(move)
+        piece = str(piece)
+        player = int(player)
         a = int(move[0])
         b = int(move[1])
         if self.board[b][a] == 0:
             g = int(piece[0])
             h = int(piece[1])
-            if player == "2" and self.board[h][g] == "B":
+            if player == 2 and self.board[h][g] == "B":
                 if b-h == -1 and a-g == 1 or a-g == -1:
-                        temp = self.board[h][g]
-                        self.board[h][g] = self.board[b][a]
-                        self.board[b][a] = temp
-                        self.display_board()
-            if player == "1" and self.board[h][g] == "w":
+                    temp = self.board[h][g]
+                    self.board[h][g] = self.board[b][a]
+                    self.board[b][a] = temp
+                    self.display_board()
+            if player == 1 and self.board[h][g] == "w":
                 if b-h == 1 and a-g == 1 or a-g == -1:
                     temp = self.board[h][g]
                     self.board[h][g] = self.board[b][a]
                     self.board[b][a] = temp
                     self.display_board()
+        player = self.update_player(player)
+        new_piece = int(input("which piece do you want to move?"))
+        new_move = int(input("what is your move?"))
+        if self.valid_move(new_piece,new_move):
+            return False
+        return True
+
     def update_player(self, player:int) -> int:
-        if self.player == 1:
-            self.player = 2
-            return self.player
+        """
+        change the player
+        >>>update_player(1)
+        2
+        >>>update_player(2)
+        1
+        """
+        if player == 1:
+            player = 2
+            return player
         else:
-            self.player = 1
-            return self.player
+            player = 1
+            return player
 
 def main():
     checkers = Checkers()
-    checkers.player = 1
+    player = 1
     gameover = False
     while not gameover:
         print(checkers.display_board())
@@ -104,10 +118,10 @@ def main():
         move = input("where would you like to move?")
         while not checkers.valid_move(piece,move):
             move = input("pick a valid move.")
-        gameover = checkers.update_board(checkers.player,piece,move)
-        player = checkers.update_player(checkers.player)
+        gameover = checkers.update_board(player,piece,move)
+        player = checkers.update_player(player)
     player = checkers.update_player(player)
-    print("Game over")
+    print("Game over, player", player, "won!")
 
 if __name__ == "__main__":
     main()            
