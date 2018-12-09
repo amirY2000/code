@@ -1,16 +1,28 @@
 class Node:
     
     def __init__(self,data):
+        """
+        making three node(left,data,right)
+        """
         self.data = data
         self.left = None
         self.right = None
     
     def __str__(self):
+        """
+        return the tree
+        >>>__str__(5)
+        (None)<-5->(None)
+        """
         return "("+str(self.left)+")"+"<-"+ str(self.data) + "->" +"("+str(self.right)+")"
 
 class BST:
     
-    def __init__(self,tree_list):
+    def __init__(self,tree_list:list):
+        """
+        get a list and put the first element as the root 
+        of the tree and change the root to Node
+        """
         if len(tree_list) == 0:
             self.root = None
         else:
@@ -18,7 +30,14 @@ class BST:
             for i in range(len(tree_list)):
                 self.append(tree_list[i])  
     
-    def append(self,value):
+    def append(self,value:list):
+        """
+        append a new value to the tree
+        >>>a = BST([])
+        >>>a.append(5)
+        >>>print(a)
+        (None)<-5->(None)
+        """
         if self.root is None:
             self.root = Node(value)
         else:
@@ -51,7 +70,14 @@ class BST:
                 if value > current.data:
                     current.right = Node(value)
 
-    def search(self,value):
+    def search(self,value:list)->bool:
+        """
+        searching through the tree and return True iff
+        the value is in the tree
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>a.search(5)
+        True
+        """
         if value == self.root.data:
             return True
         else:
@@ -73,7 +99,13 @@ class BST:
                 return True
             return False
     
-    def remove(self, value):
+    def remove(self, value:int):
+        """
+        remove a node from the tree
+        >>>a = BST([5,3,2,4,7,6,8])
+        >>>a.remove(5)
+        (((None)<-2->(None))<-3->((None)<-4->(None)))<-6->(((None))<-7->((None)<-8->(None)))
+        """
         pass
         if self.search(value) is True:
             if value == self.root.data:
@@ -83,9 +115,17 @@ class BST:
                 node1.data = node2.data
                 node2.data = None
                 self.root = node1              
-
     
     def getmin(self,node):
+        """
+        return the smallest node
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>a.getmin(root)
+        2
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>a.getmin(root.right)
+        6
+        """
         current = node
         while current.left is not None:
             current = current.left
@@ -95,6 +135,18 @@ class BST:
         if self.root is not None:
             self._inorder(self.root)
     def _inorder(self,node):
+        """
+        print the tree inorder traversal
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>print(a)
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        """
         if node is not None:
             self._inorder(node.left)
             print(str(node.data))
@@ -104,6 +156,18 @@ class BST:
         if self.root is not None:
             self._preorder(self.root)
     def _preorder(self,node):
+        """
+        print the tree in preorder traversal
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>print(a)
+        5
+        3
+        2
+        4
+        7
+        6
+        8
+        """
         if node is not None:
             print(str(node.data))
             self._preorder(node.left)
@@ -113,6 +177,18 @@ class BST:
         if self.root is not None:
             self._postorder(self.root)
     def _postorder(self,node):
+        """
+        print the tree in postorder traversal
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>print(a)
+        2
+        4
+        3
+        6
+        8
+        7
+        5
+        """
         if node is not None:
             self._postorder(node.left)
             self._postorder(node.right)
