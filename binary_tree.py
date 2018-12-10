@@ -23,6 +23,7 @@ class BST:
         get a list and put the first element as the root 
         of the tree and change the root to Node
         """
+        self.tree_list = tree_list
         if len(tree_list) == 0:
             self.root = None
         else:
@@ -90,7 +91,7 @@ class BST:
                         current = current.right
                 return True
             if value < self.root.data:
-                current = self.root
+                current = self.root.left
                 while current.data != value:
                     if value > current.data:
                         current = current.right 
@@ -100,22 +101,46 @@ class BST:
             return False
     
     def remove(self, value:int):
+        """NOTE: shame on me :("""
         """
         remove a node from the tree
         >>>a = BST([5,3,2,4,7,6,8])
         >>>a.remove(5)
         (((None)<-2->(None))<-3->((None)<-4->(None)))<-6->(((None))<-7->((None)<-8->(None)))
         """
-        pass
+        tree = self.tree_list
         if self.search(value) is True:
             if value == self.root.data:
-                node1 = self.root
-                node2 = Node(self.getmin(self.root.right)) 
-                node1.data = None
-                node1.data = node2.data
-                node2.data = None
-                self.root = node1              
-    
+                min_node = self.getmin(self.root.right) 
+                i = tree.index(min_node)
+                tree[0] , tree[i] = tree[i], tree[0]
+                tree.remove(tree[i])
+                self.tree_list = tree
+                self.root = Node(self.tree_list[0]) 
+                for j in range(len(self.tree_list)):
+                    self.append(self.tree_list[j])
+            else:
+                if value < self.root.data:
+                    max_node = self.getmax(self.root.left)
+                    a = tree.index(max_node)
+                    b = tree.index(value)
+                    tree[b] , tree[a] = tree[a] , tree[b]
+                    tree.remove(tree[a])
+                    self.tree_list = tree
+                    self.root = Node(self.tree_list[0]) 
+                    for c in range(len(self.tree_list)):
+                        self.append(self.tree_list[c])
+                if value > self.root.data:
+                    maxnode = self.getmax(self.root.right)
+                    u = tree.index(maxnode)
+                    r = tree.index(value)
+                    tree[r] , tree[u] = tree[u] , tree[r]
+                    tree.remove(tree[u])
+                    self.tree_list = tree
+                    self.root = Node(self.tree_list[0]) 
+                    for h in range(len(self.tree_list)):
+                        self.append(self.tree_list[h])
+
     def getmin(self,node):
         """
         return the smallest node
@@ -131,6 +156,21 @@ class BST:
             current = current.left
         return current.data
 
+    def getmax(self,node):
+        """
+        return the greatest node 
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>a.getmax(root)
+        8
+        >>>a = BST([5,3,4,2,7,6,8])
+        >>>a.getmin(root.left)
+        4
+        """
+        current = node
+        while current.right is not None:
+            current = current.right
+        return current.data
+    
     def inorder(self):
         if self.root is not None:
             self._inorder(self.root)
@@ -194,8 +234,10 @@ class BST:
             self._postorder(node.right)
             print(str(node.data))
     
+    def rooot(self):
+        return self.root.data
     def __str__(self):
-        return str(self.inorder())
+        #return str(self.inorder())
         #return str(self.preorder())
         #return str(self.postorder())
-        #return str(self.root)
+        return str(self.root)
