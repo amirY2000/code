@@ -125,7 +125,10 @@ class BST:
                     current = parent.right
                 parent.right = current.left
     
-    def swap(self,value,value1):
+    def swap(self,value:int,value1:int):
+        """
+        swap two node in the binary tree
+        """
         if value == self.root.data:
             node = self.root
         else:
