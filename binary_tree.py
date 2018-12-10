@@ -101,45 +101,70 @@ class BST:
             return False
     
     def remove(self, value:int):
-        """NOTE: shame on me :("""
         """
         remove a node from the tree
         >>>a = BST([5,3,2,4,7,6,8])
         >>>a.remove(5)
         (((None)<-2->(None))<-3->((None)<-4->(None)))<-6->(((None))<-7->((None)<-8->(None)))
         """
-        tree = self.tree_list
-        if self.search(value) is True:
-            if value == self.root.data:
-                min_node = self.getmin(self.root.right) 
-                i = tree.index(min_node)
-                tree[0] , tree[i] = tree[i], tree[0]
-                tree.remove(tree[i])
-                self.tree_list = tree
-                self.root = Node(self.tree_list[0]) 
-                for j in range(len(self.tree_list)):
-                    self.append(self.tree_list[j])
-            else:
-                if value < self.root.data:
-                    max_node = self.getmax(self.root.left)
-                    a = tree.index(max_node)
-                    b = tree.index(value)
-                    tree[b] , tree[a] = tree[a] , tree[b]
-                    tree.remove(tree[a])
-                    self.tree_list = tree
-                    self.root = Node(self.tree_list[0]) 
-                    for c in range(len(self.tree_list)):
-                        self.append(self.tree_list[c])
-                if value > self.root.data:
-                    maxnode = self.getmax(self.root.right)
-                    u = tree.index(maxnode)
-                    r = tree.index(value)
-                    tree[r] , tree[u] = tree[u] , tree[r]
-                    tree.remove(tree[u])
-                    self.tree_list = tree
-                    self.root = Node(self.tree_list[0]) 
-                    for h in range(len(self.tree_list)):
-                        self.append(self.tree_list[h])
+        if value >= self.root.data:
+            self.swap(value , self.getmin(self.root.right))
+            parent = self.root
+            current = parent.right
+            while current.data != self.getmin(self.root.right):
+                parent = current
+                current = parent.left
+            parent.left = current.right
+        else:
+            if value < self.root.data:
+                self.swap(value , self.getmax(self.root.left))
+                parent = self.root
+                current = parent.left
+                while current.data != self.getmax(self.root.left):
+                    parent = current
+                    current = parent.right
+                parent.right = current.left
+    
+    def swap(self,value,value1):
+        if value == self.root.data:
+            node = self.root
+        else:
+            if value > self.root.data:
+                current = self.root.right
+                while current.data != value:
+                    if value < current.data:
+                        current = current.left
+                    else:
+                        current = current.right
+                node = current
+            if value < self.root.data:
+                current = self.root.left
+                while current.data != value:
+                    if value > current.data:
+                        current = current.right 
+                    else:    
+                        current = current.left
+                node = current
+        if value1 == self.root.data:
+            node1 = self.root
+        else:
+            if value1 > self.root.data:
+                current = self.root.right
+                while current.data != value1:
+                    if value1 < current.data:
+                        current = current.left
+                    else:
+                        current = current.right
+                node1 = current
+            if value1 < self.root.data:
+                current = self.root.left
+                while current.data != value1:
+                    if value1 > current.data:
+                        current = current.right 
+                    else:    
+                        current = current.left
+                node1 = current        
+        node.data , node1.data = node1.data , node.data
 
     def getmin(self,node):
         """
@@ -237,7 +262,7 @@ class BST:
     def rooot(self):
         return self.root.data
     def __str__(self):
-        #return str(self.inorder())
+        return str(self.inorder())
         #return str(self.preorder())
         #return str(self.postorder())
-        return str(self.root)
+        #return str(self.root)
