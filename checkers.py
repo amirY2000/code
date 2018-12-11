@@ -77,20 +77,21 @@ class Checkers:
                     temp = self.board[h][g]
                     self.board[h][g] = self.board[b][a]
                     self.board[b][a] = temp
-                    self.display_board()
             if player == 1 and self.board[h][g] == "w":
                 if b-h == 1 and a-g == 1 or a-g == -1:
                     temp = self.board[h][g]
                     self.board[h][g] = self.board[b][a]
                     self.board[b][a] = temp
-                    self.display_board()
         player = self.update_player(player)
-        new_piece = int(input("which piece do you want to move?"))
-        new_move = int(input("what is your move?"))
-        if self.valid_move(new_piece,new_move):
-            return False
+        for i in range(1,9):
+            for j in range(i,9):
+                if player == 2 and self.board[j][i] == "B":
+                    if self.board[j-1][i+1] == 0 or self.board[j-1][i-1] == 0:
+                        return False
+                elif player == 1 and self.board[j][i] == "w":
+                    if self.board[j+1][i+1] == 0 or self.board[j+1][i-1] == 0:
+                        return False
         return True
-
     def update_player(self, player:int) -> int:
         """
         change the player
