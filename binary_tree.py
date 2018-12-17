@@ -28,7 +28,7 @@ class BST:
             self.root = None
         else:
             self.root = Node(tree_list[0]) 
-            for i in range(len(tree_list)):
+            for i in range(1,len(tree_list)):
                 self.append(tree_list[i])  
     
     def append(self,value:list):
@@ -53,7 +53,15 @@ class BST:
                     else:    
                         current = current.right
                 if value < current.data:
-                    current.left = Node(value)    
+                    while current.left is not None:
+                        if value > current.data:
+                            if current.right is not None:
+                                current = current.right
+                            else:
+                                break                    
+                        else:    
+                            current = current.left
+                    current.left = Node(value)
                 if value > current.data:
                     current.right = Node(value)
             if value < self.root.data:
@@ -69,8 +77,15 @@ class BST:
                 if value < current.data:
                     current.left = Node(value)    
                 if value > current.data:
+                    while current.right is not None:
+                        if value < current.data:
+                            if current.left is not None:
+                                current = current.left
+                            else:
+                                break
+                        else:    
+                            current = current.right
                     current.right = Node(value)
-
     def search(self,value:list)->bool:
         """
         searching through the tree and return True iff
@@ -125,10 +140,7 @@ class BST:
                     current = parent.right
                 parent.right = current.left
     
-    def swap(self,value:int,value1:int):
-        """
-        swap two node in the binary tree
-        """
+    def swap(self,value,value1):
         if value == self.root.data:
             node = self.root
         else:
@@ -264,8 +276,9 @@ class BST:
     
     def rooot(self):
         return self.root.data
+    
     def __str__(self):
-        return str(self.inorder())
+        #return str(self.inorder())
         #return str(self.preorder())
-        #return str(self.postorder())
+        return str(self.postorder())
         #return str(self.root)
