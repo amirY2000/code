@@ -1,5 +1,5 @@
 '''
-Chess is a game which will play between two players.
+Chess is a game which is played between two players.
 The chess board is a square surface which has 64 squares on it.
 Half of these squares are white and the rest of them are black.
 Each player has 16 pieces: 8 pawns, 1 king, 1 queen, 2 bishobs, 2 nights,
