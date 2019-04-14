@@ -90,23 +90,27 @@ class Pawn(piece):
             y1 = int(destination[1])
             if y and y1 not in numbers:
                 return False
-            if y == 2 or 7:
-                if self.color == "w" and y1-y == 2 and x1 == x:
+            if y == 2 and self.color == "w" :
+                if y1-y == 2 and x1 == x:
                     return True
-                elif self.color == "w" and y1-y == 1 and x1 == x:
+                elif y1-y == 1 and x1 == x:
                     return True
-                elif self.color == "b" and y-y1 == 2 and x1 == x:
+                return False
+            if y == 7 and self.color == "b":  
+                if y-y1 == 2 and x1 == x:
                     return True
-                elif self.color == "b" and y-y1 == 1 and x1 == x:
+                elif y-y1 == 1 and x1 == x:
                     return True
                 return False 
-            if y != 2 or y != 7:
-                if self.color == "w" and y1-y == 1 and x1 == x:
+            if y != 2 and self.color == "w":
+                if y1-y == 1 and x1 == x:
                     return True
-                elif self.color == "b"and y-y1 == 1 and x1 == x:
+                return False
+            if y != 7 and self.color == "b":
+                if y-y1 == 1 and x1 == x:
                     return True
-                else:
-                    return False    
+                return False  
+            return False  
         def Special_move(self,origin,destination):
             """
             * capturing
@@ -220,10 +224,15 @@ class King(piece):
             destination = str(destination)
             x1 = int(destination[0])
             y1 = int(destination[1])
-            if x == 5 and y == 0:
-                if x1 == 7 and y1==0:
+            if x == 4 and self.color == "w" and y == 1 and y1 == 1:
+                if x1 == 2:
                     return "king"
-                elif x1 == 3 and y1 == 0:
+                elif x1 == 6:
+                    return "queen"
+            if x == 4 and self.color == "b" and y == 8 and y1 == 8:
+                if x1 == 2:
+                    return "king"
+                elif x1 == 6:
                     return "queen"
                 return False
             return False
@@ -392,7 +401,7 @@ class Rook(piece):
             return "R{0}".format(self.color) 
 class Game():
     def __init__(self):
-        self.board = [["|","h ",'g ','f ','e ','d ','c ','b ',' a'],[1,Rook("w"),Night("w"),Bishob("w"),Queen("w"),King("w"),Bishob("w"),Night("w"),Rook("w")],[2,Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w")],[3," ."," ."," ."," ."," ."," ."," ."," ."],[4," ."," ."," ."," ."," ."," ."," ."," ."],[5," ."," ."," ."," ."," ."," ."," ."," ."],[6," ."," ."," ."," ."," ."," ."," ."," ."],[7,Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b")],[8,Rook("b"),Night("b"),Bishob("b"),Queen("b"),King("b"),Bishob("b"),Night("b"),Rook("b")],["|","h ",'g ','f ','e ','d ','c ','b ',' a']] 
+        self.board = [["|"," h",' g',' f',' e',' d',' c',' b',' a'],[1,Rook("w"),Night("w"),Bishob("w"),King("w"),Queen("w"),Bishob("w"),Night("w"),Rook("w")],[2,Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w")],[3," ."," ."," ."," ."," ."," ."," ."," ."],[4," ."," ."," ."," ."," ."," ."," ."," ."],[5," ."," ."," ."," ."," ."," ."," ."," ."],[6," ."," ."," ."," ."," ."," ."," ."," ."],[7,Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b")],[8,Rook("b"),Night("b"),Bishob("b"),King("b"),Queen("b"),Bishob("b"),Night("b"),Rook("b")],["|"," h",' g',' f',' e',' d',' c',' b',' a']] 
     
     def display_board(self):
         """
@@ -468,18 +477,17 @@ class Game():
                 return False
             
             if type(piece_to_move) == King:
-                if type(place_to_move) == str:
+                if piece_to_move.movement(origin,destination) == True and place_to_move.color != piece_to_move.color:
+                    return True
+                elif piece_to_move.castle(origin,destination) == "king" and type(self.board[y1][x1-1]) == Rook:
+                    if type(place_to_move) and type(self.board[y1][x1+1]) == str:
+                        return "castle king"
+                elif piece_to_move.castle(origin,destination) == "queen" and type(self.board[y1][x1+2]) == Rook:
+                    if type(place_to_move) and type(self.board[y1][x1-1]) and type(self.board[y1][x1+1]) == str:
+                        return "castle queen"
+                elif type(place_to_move) == str:
                     if piece_to_move.movement(origin,destination) == True:
                         return True
-                    return False
-                elif piece_to_move.movement(origin,destination) == True and place_to_move.color != piece_to_move.color:
-                    return True
-                elif piece_to_move.castle(origin,destination) == "king" and type(self.board[y1][x1+1]) == Rook:
-                    if type(place_to_move) and type(self.board[y1][x1-1]) == str:
-                        return "castle king"
-                elif piece_to_move.castle(origin,destination) == "queen" and type(self.board[y1][x1-2]) == Rook:
-                    if type(place_to_move) and type(self.board[y1][x1+1]) == str:
-                        return "castle queen"
                 return False
             
             if type(piece_to_move) == Night:
@@ -766,7 +774,61 @@ class Game():
         elif new_piece == "N" and player == "Black":
             self.board[y][x] = Rook("b")
             return str(x)+str(y)
-        
+
+    def castle(self,side,player):
+        """
+        this function will happens once for each player instead update board
+        when a player wants to do castle
+        """
+        if side == "castle king" and player == "White":
+            temp = self.board[1][4]
+            self.board[1][4] = self.board[1][2]
+            self.board[1][2] = temp
+            temp = self.board[1][1]
+            self.board[1][1] = self.board[1][3]
+            self.board[1][3] = temp
+            for i in self.board:
+                for c in i:
+                    print(c,end = " ")
+                print()
+            return '------------------------'
+        elif side == "castle queen" and player == "White":
+            temp = self.board[1][4]
+            self.board[1][4] = self.board[1][6]
+            self.board[1][6] = temp
+            temp = self.board[1][8]
+            self.board[1][8] = self.board[1][5]
+            self.board[1][5] = temp
+            for i in self.board:
+                for c in i:
+                    print(c,end = " ")
+                print()
+            return '------------------------'
+        if side == "castle king" and player == "Black":
+            temp = self.board[8][4]
+            self.board[8][4] = self.board[8][2]
+            self.board[8][2] = temp
+            temp = self.board[8][1]
+            self.board[8][1] = self.board[8][3]
+            self.board[8][3] = temp
+            for i in self.board:
+                for c in i:
+                    print(c,end = " ")
+                print()
+            return '------------------------'
+        elif side == "castle queen" and player == "Black":
+            temp = self.board[8][4]
+            self.board[8][4] = self.board[8][6]
+            self.board[8][6] = temp
+            temp = self.board[8][8]
+            self.board[8][8] = self.board[8][5]
+            self.board[8][5] = temp
+            for i in self.board:
+                for c in i:
+                    print(c,end = " ")
+                print()
+            return '------------------------'
+
 def main():
     """
     this function will include the loops which play the role of 
@@ -815,7 +877,10 @@ def main():
         if game.valid_move(origin,destination) == "cap":
             new_piece = input("what piece do you want to take in? (Q,R,B,N)")
             origin = game.factory(origin,new_piece,player)
-        print(game.update_board(origin,destination))
+        if game.valid_move(origin,destination) == "castle king" or game.valid_move(origin,destination) == "castle queen":
+            print(game.castle(game.valid_move(origin,destination),player))
+        else:
+            print(game.update_board(origin,destination))
         player = game.update_player(player)
     player = game.update_player(player)
 if __name__ == "__main__":
