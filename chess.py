@@ -401,7 +401,7 @@ class Rook(piece):
             return "R{0}".format(self.color) 
 class Game():
     def __init__(self):
-        self.board = [["|"," h",' g',' f',' e',' d',' c',' b',' a'],[1,Rook("w"),Night("w"),Bishob("w"),King("w"),Queen("w"),Bishob("w"),Night("w"),Rook("w")],[2,Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w")],[3," ."," ."," ."," ."," ."," ."," ."," ."],[4," ."," ."," ."," ."," ."," ."," ."," ."],[5," ."," ."," ."," ."," ."," ."," ."," ."],[6," ."," ."," ."," ."," ."," ."," ."," ."],[7,Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b")],[8,Rook("b"),Night("b"),Bishob("b"),King("b"),Queen("b"),Bishob("b"),Night("b"),Rook("b")],["|"," h",' g',' f',' e',' d',' c',' b',' a']] 
+        self.board = [["|"," h",' g',' f',' e',' d',' c',' b',' a'],[1,Rook("w"),Night("w"),Bishob("w"),King("w"),Queen("w"),Bishob("w"),Night("w"),Rook("w")],[2,Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w"),Pawn("w")],[3," "," "," "," "," "," "," "," "],[4," "," "," "," "," "," "," "," "],[5," "," "," "," "," "," "," "," "],[6," "," "," "," "," "," "," "," "],[7,Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b"),Pawn("b")],[8,Rook("b"),Night("b"),Bishob("b"),King("b"),Queen("b"),Bishob("b"),Night("b"),Rook("b")],["|"," h",' g',' f',' e',' d',' c',' b',' a']] 
     
     def display_board(self):
         """
@@ -439,10 +439,8 @@ class Game():
             self.board[y1][x1] = temp
         elif type(self.board[y1][x1]) != str:
             temp = self.board[y][x]
-            self.board[y][x] = " ."
+            self.board[y][x] = " "
             self.board[y1][x1] = temp
-        if self.check(str(x1)+str(y1),player) == True:
-            print("check !!!!!!")
         for i in self.board:
             for c in i:
                 print(c,end = " ")
@@ -471,7 +469,7 @@ class Game():
                         return False
                     return True
                 elif piece_to_move.Special_move(origin,destination) == True and type(place_to_move) != str:
-                    if piece_to_move.color != place_to_move.color and type(place_to_move) != King:
+                    if piece_to_move.color != place_to_move.color:
                         if piece_to_move.capability(origin,destination) == True:
                             return "cap"  
                         return True  
@@ -507,30 +505,31 @@ class Game():
             
             if type(piece_to_move) == Rook:
                 if piece_to_move.movement(origin,destination) == "horizontal":
-                    print("horiz if")
                     a = x1-x 
                     if a < 0:
-                        print("if")
                         a *= -1
                         for i in range(1,a+1):
                             if type(self.board[y1][x-i]) != str:
-                                if piece_to_move.color == self.board[y1][x1-i].color:
+                                if piece_to_move.color == self.board[y1][x-i].color:
                                     return False
-                                else:
-                                    if x-i == x1:
-                                        return True
+                                elif piece_to_move.color != self.board[y1][x-i].color and x-i != x1:
+                                    return False
+                                elif piece_to_move.color != self.board[y1][x-i].color and x-i == x1:
+                                    return True
+                                return False
                             elif x-i == x1:
                                 return True
                         return False
                     else:
-                        print("else")
                         for i in range(1,a+1):
                             if type(self.board[y1][x+i]) != str:
-                                if piece_to_move.color == self.board[y1][x1+i].color:
+                                if piece_to_move.color == self.board[y1][x+i].color:
                                     return False
-                                else:
-                                    if x+i == x1:
-                                        return True
+                                elif piece_to_move.color != self.board[y1][x+i].color and x+i != x1:
+                                    return False
+                                elif piece_to_move.color != self.board[y1][x+i].color and x+i == x1:
+                                    return True
+                                return False
                             elif x+i == x1:
                                 return True
                         return False
@@ -543,10 +542,11 @@ class Game():
                             if type(self.board[y-i][x1]) != str:
                                 if piece_to_move.color == self.board[y-i][x1].color:
                                     return False
-                                else:
-                                    if y-i == y1:
-                                        return True
+                                elif piece_to_move.color != self.board[y-i][x1].color and y-i != y1:
                                     return False
+                                elif piece_to_move.color != self.board[y-i][x1].color and y-i == y1:
+                                    return True
+                                return False
                             if y-i == y1:
                                 return True
                         return False 
@@ -555,9 +555,11 @@ class Game():
                             if type(self.board[y+i][x1]) != str:
                                 if piece_to_move.color == self.board[y+i][x].color:
                                     return False
-                                else:
-                                    if y+i == y1:
-                                        return True
+                                elif piece_to_move.color != self.board[y+i][x1].color and y+i != y1:
+                                    return False
+                                elif piece_to_move.color != self.board[y+i][x1].color and y+i == y1:
+                                    return True
+                                return False
                             elif y+i == y1:
                                 return True
                         return False     
@@ -570,8 +572,9 @@ class Game():
                         if type(self.board[y+j][x+j]) != str:    
                             if piece_to_move.color == self.board[y+j][x+j].color:
                                 return False
-                            else:
-                                if y+j == y1:
+                            elif piece_to_move.color != self.board[y+j][x+j].color and y+j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y+j][x+j].color and y+j == y1:
                                     return True
                         elif y+j == y1:
                             return True
@@ -581,8 +584,9 @@ class Game():
                         if type(self.board[y-j][x-j]) != str:    
                             if piece_to_move.color == self.board[y-j][x-j].color:
                                 return False
-                            else:
-                                if y-j == y1:
+                            elif piece_to_move.color != self.board[y-j][x-j].color and y-j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y-j][x-j].color and y-j == y1:
                                     return True
                         elif y-j == y1:
                             return True
@@ -592,8 +596,9 @@ class Game():
                         if type(self.board[y+j][x-j]) != str:    
                             if piece_to_move.color == self.board[y+j][x-j].color:
                                 return False
-                            else:
-                                if y+j == y1:
+                            elif piece_to_move.color != self.board[y+j][x-j].color and y+j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y+j][x-j].color and y+j == y1:
                                     return True
                         elif y+j == y1:
                             return True
@@ -603,8 +608,9 @@ class Game():
                         if type(self.board[y-j][x+j]) != str:    
                             if piece_to_move.color == self.board[y-j][x+j].color:
                                 return False
-                            else:
-                                if y-j == y1:
+                            elif piece_to_move.color != self.board[y-j][x+j].color and y-j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y-j][x+j].color and y-j == y1:
                                     return True
                         elif y-j == y1:
                             return True
@@ -617,41 +623,45 @@ class Game():
                         if type(self.board[y+j][x+j]) != str:    
                             if piece_to_move.color == self.board[y+j][x+j].color:
                                 return False
-                            else:
-                                if y+j == y1:
+                            elif piece_to_move.color != self.board[y+j][x+j].color and y+j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y+j][x+j].color and y+j == y1:
                                     return True
                         elif y+j == y1:
                             return True
                     return False
-                elif piece_to_move.movement(origin,destination) == "south west":
+                if piece_to_move.movement(origin,destination) == "south west":
                     for j in range(1,(y-y1)+1):
                         if type(self.board[y-j][x-j]) != str:    
                             if piece_to_move.color == self.board[y-j][x-j].color:
                                 return False
-                            else:
-                                if y-j == y1:
+                            elif piece_to_move.color != self.board[y-j][x-j].color and y-j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y-j][x-j].color and y-j == y1:
                                     return True
                         elif y-j == y1:
                             return True
                     return False
-                elif piece_to_move.movement(origin,destination) == "north west":
+                if piece_to_move.movement(origin,destination) == "north west":
                     for j in range(1,(y1-y)+1):
                         if type(self.board[y+j][x-j]) != str:    
                             if piece_to_move.color == self.board[y+j][x-j].color:
                                 return False
-                            else:
-                                if y+j == y1:
+                            elif piece_to_move.color != self.board[y+j][x-j].color and y+j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y+j][x-j].color and y+j == y1:
                                     return True
                         elif y+j == y1:
                             return True
                     return False
-                elif piece_to_move.movement(origin,destination) == "south east":
+                if piece_to_move.movement(origin,destination) == "south east":
                     for j in range(1,(x1-x)+1):
                         if type(self.board[y-j][x+j]) != str:    
                             if piece_to_move.color == self.board[y-j][x+j].color:
                                 return False
-                            else:
-                                if y-j == y1:
+                            elif piece_to_move.color != self.board[y-j][x+j].color and y-j != y1:
+                                return False
+                            elif piece_to_move.color != self.board[y-j][x+j].color and y-j == y1:
                                     return True
                         elif y-j == y1:
                             return True
@@ -659,30 +669,34 @@ class Game():
                 elif piece_to_move.movement(origin,destination) == "horizontal":
                     a = x1-x 
                     if a < 0:
-                        p = a*-1
-                        for i in range(1,p+1):
+                        a *= -1
+                        for i in range(1,a+1):
                             if type(self.board[y1][x-i]) != str:
-                                if piece_to_move.color == self.board[y1][x1-i].color:
+                                if piece_to_move.color == self.board[y1][x-i].color:
                                     return False
-                                else:
-                                    if x-i == x1:
-                                        return True
+                                elif piece_to_move.color != self.board[y1][x-i].color and x-i != x1:
+                                    return False
+                                elif piece_to_move.color != self.board[y1][x-i].color and x-i == x1:
+                                    return True
+                                return False
                             elif x-i == x1:
                                 return True
                         return False
-                    elif a > 0:
+                    else:
                         for i in range(1,a+1):
                             if type(self.board[y1][x+i]) != str:
-                                if piece_to_move.color == self.board[y1][x1+i].color:
+                                if piece_to_move.color == self.board[y1][x+i].color:
                                     return False
-                                else:
-                                    if x+i == x1:
-                                        return True
+                                elif piece_to_move.color != self.board[y1][x+i].color and x+i != x1:
+                                    return False
+                                elif piece_to_move.color != self.board[y1][x+i].color and x+i == x1:
+                                    return True
+                                return False
                             elif x+i == x1:
                                 return True
                         return False
                     return False
-                elif piece_to_move.movement(origin,destination) == "vertical":
+                if piece_to_move.movement(origin,destination) == "vertical":
                     a = y1-y 
                     if a < 0:
                         a *= -1
@@ -690,10 +704,11 @@ class Game():
                             if type(self.board[y-i][x1]) != str:
                                 if piece_to_move.color == self.board[y-i][x1].color:
                                     return False
-                                else:
-                                    if y-i == y1:
-                                        return True
+                                elif piece_to_move.color != self.board[y-i][x1].color and y-i != y1:
                                     return False
+                                elif piece_to_move.color != self.board[y-i][x1].color and y-i == y1:
+                                    return True
+                                return False
                             if y-i == y1:
                                 return True
                         return False 
@@ -702,9 +717,11 @@ class Game():
                             if type(self.board[y+i][x1]) != str:
                                 if piece_to_move.color == self.board[y+i][x].color:
                                     return False
-                                else:
-                                    if y+i == y1:
-                                        return True
+                                elif piece_to_move.color != self.board[y+i][x1].color and y+i != y1:
+                                    return False
+                                elif piece_to_move.color != self.board[y+i][x1].color and y+i == y1:
+                                    return True
+                                return False
                             elif y+i == y1:
                                 return True
                         return False     
@@ -822,7 +839,7 @@ class Game():
                 print()
             return '------------------------'
 
-    def check(self,origin,player):
+    def check(self,player):
         kx = 0
         ky = 0
         if player == "White":
@@ -833,21 +850,34 @@ class Game():
                         ky = str(j)
             if kx == 0 and ky == 0:
                 return "checkmate"
-            elif self.valid_move(origin,kx+ky):
-                return True
+            for y in range(1,len(self.board)):
+                for x in range(1,len(self.board[y])):
+                    if type(self.board[y][x]) != str and int:
+                        if type(self.board[y][x]) != King and self.board[y][x].color == "b":
+                            if self.valid_move(str(x)+str(y),kx+ky) == True:
+                                return True
+                            elif self.valid_move(str(x)+str(y),kx+ky) == "cap":
+                                return True
             return False
-        elif player == "Black":    
+        elif player == "Black":
             for j in range(1,len(self.board)):
                 for i in range(1,len(self.board[j])):
-                    if type(self.board[j][i]) == King and self.board[j][i].color == "w":
+                    if type(self.board[j][i]) == King and self.board[j][i].color == "b":
                         kx = str(i)
                         ky = str(j)
             if kx == 0 and ky == 0:
                 return "checkmate"
-            if self.valid_move(origin,kx+ky):
-                return True
+            for y in range(1,len(self.board)):
+                for x in range(1,len(self.board[y])):
+                    if type(self.board[y][x]) != str and int:    
+                        if type(self.board[y][x]) != King and self.board[y][x].color == "w":
+                            if self.valid_move(str(x)+str(y),kx+ky) == True:
+                                return True
+                            elif self.valid_move(str(x)+str(y),kx+ky) == "cap":
+                                return True
             return False
         return False  
+
 def main():
     """
     this function will include the loops which play the role of 
@@ -859,6 +889,8 @@ def main():
     gameover = False
     print(game.display_board())
     while gameover is not True:
+        if game.check(player) == True:
+            print("CHECK  !!!!!!!!!")
         origin = input("which piece would you like to move?")
         x = origin[0]
         y = origin[1]
@@ -901,7 +933,7 @@ def main():
         else:
             print(game.update_board(origin,destination,player))
         player = game.update_player(player)
-        if game.check(origin,player) == "checkmate":
+        if game.check(player) == "checkmate":
             gameover = True
     player = game.update_player(player)
     print("Check Mate!",player,"won.")
