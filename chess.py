@@ -60,7 +60,10 @@ We need a loop which ask for the next move and in this loop we have to change
 player aoutomatically after each move. Also, this loop will update board after 
 each move. The break condition of this loop is gameover == True. this while-
 loop will work untill the game over becomes true.
-
+'''
+'''
+NOTE:
+you will get warning for check and if you lose your king you will lose the game
 '''
 class piece():
     def __init__(self,color):
@@ -877,6 +880,60 @@ class Game():
                                 return True
             return False
         return False  
+    def draw(self):
+        knight_w = 0
+        knight_b = 0
+        bishob_w = 0
+        bishob_b = 0
+        king = 0
+        queen_w = 0
+        queen_b = 0
+        pawn_w = 0
+        pawn_b = 0
+        rook_w = 0
+        rook_b = 0
+        for j in range(1,len(self.board)):
+            for i in range(1,len(self.board[j])):
+                if type(self.board[j][i]) == King:
+                    king += 1
+                elif type(self.board[j][i]) == Queen and self.board[j][i].color == "w":
+                    queen_w += 1
+                elif type(self.board[j][i]) == Queen and self.board[j][i].color == "b":
+                    queen_b += 1
+                elif type(self.board[j][i]) == Night and self.board[j][i].color == "w":
+                    knight_w += 1
+                elif type(self.board[j][i]) == Night and self.board[j][i].color == "b":
+                    knight_b += 1
+                elif type(self.board[j][i]) == Bishob and self.board[j][i].color == "w":
+                    bishob_w += 1
+                elif type(self.board[j][i]) == Bishob and self.board[j][i].color == "b":
+                    bishob_b += 1
+                elif type(self.board[j][i]) == Rook and self.board[j][i].color == "w":
+                    rook_w += 1
+                elif type(self.board[j][i]) == Rook and self.board[j][i].color == "b":
+                    rook_b += 1
+                elif type(self.board[j][i]) == Pawn and self.board[j][i].color == "w":
+                    pawn_w += 1
+                elif type(self.board[j][i]) == Pawn and self.board[j][i].color == "b":
+                    pawn_b += 1
+        if king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 0 and knight_b == 0 and bishob_w == 0 and bishob_b == 0:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 1 and knight_b == 1 and bishob_w == 1 and bishob_b == 0:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 1 and knight_b == 1 and bishob_w == 0 and bishob_b == 1:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 1 and knight_b == 0 and bishob_w == 0 and bishob_b == 0:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 0 and knight_b == 1 and bishob_w == 0 and bishob_b == 0:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 0 and knight_b == 0 and bishob_w == 1 and bishob_b == 0:
+            return True
+        elif king == 2 and queen_w == 0 and queen_b == 0 and pawn_w == 0 and pawn_b == 0 and rook_w == 0 and rook_b == 0 and knight_w == 0 and knight_b == 0 and bishob_w == 0 and bishob_b == 1:
+            return True
+        return False
+                 
+                
+
 
 def main():
     """
@@ -887,8 +944,9 @@ def main():
     player = "White"
     alph_to_num = {"a":8,"b":7,"c":6,"d":5,"e":4,"f":3,"g":2,"h":1}
     gameover = False
+    draw = False
     print(game.display_board())
-    while gameover is not True:
+    while gameover is not True and draw is not True:
         if game.check(player) == True:
             print("CHECK  !!!!!!!!!")
         origin = input("which piece would you like to move?")
@@ -909,15 +967,16 @@ def main():
                     break
             origin = str(x) + y
         destination = input("where would you like to move?")
-        x1 = destination[0]
-        y1 = destination[1]
-        for i in alph_to_num.keys():
-            if x1 == i:
-                x1 = alph_to_num[i]
-                break
-        destination = str(x1) + y1
-        while game.valid_move(origin,destination) == False:
-            destination = input("pick a valid move.")
+        if destination == "change":
+            origin = input("which piece would you like to move?")
+            x = origin[0]
+            y = origin[1]
+            for k in alph_to_num.keys():
+                if x == k:
+                    x = alph_to_num[k]
+                    break
+            origin = str(x) + y
+            destination = input("where would you like to move?")
             x1 = destination[0]
             y1 = destination[1]
             for i in alph_to_num.keys():
@@ -925,6 +984,41 @@ def main():
                     x1 = alph_to_num[i]
                     break
             destination = str(x1) + y1
+        elif destination != "change":
+            x1 = destination[0]
+            y1 = destination[1]
+            for i in alph_to_num.keys():
+                if x1 == i:
+                    x1 = alph_to_num[i]
+                    break
+            destination = str(x1) + y1
+        while game.valid_move(origin,destination) == False:
+            destination = input("pick a valid move.")
+            if destination == "change":
+                origin = input("which piece would you like to move?")
+                x = origin[0]
+                y = origin[1]
+                for k in alph_to_num.keys():
+                    if x == k:
+                        x = alph_to_num[k]
+                        break
+                origin = str(x) + y
+                destination = input("where would you like to move?")
+                x1 = destination[0]
+                y1 = destination[1]
+                for i in alph_to_num.keys():
+                    if x1 == i:
+                        x1 = alph_to_num[i]
+                        break
+                destination = str(x1) + y1
+            elif destination != "change":
+                x1 = destination[0]
+                y1 = destination[1]
+                for i in alph_to_num.keys():
+                    if x1 == i:
+                        x1 = alph_to_num[i]
+                        break
+                destination = str(x1) + y1
         if game.valid_move(origin,destination) == "cap":
             new_piece = input("what piece do you want to take in? (Q,R,B,N)")
             origin = game.factory(origin,new_piece,player)
@@ -935,6 +1029,8 @@ def main():
         player = game.update_player(player)
         if game.check(player) == "checkmate":
             gameover = True
+        if game.draw() == True:
+            draw == True
     player = game.update_player(player)
     print("Check Mate!",player,"won.")
 if __name__ == "__main__":
